@@ -3,7 +3,7 @@ import { ValidationError } from '../../../../packages/error-handler';
 import { NextFunction, Response, Request } from 'express';
 import redis from '../../../../packages/libs/regis';
 import { sendEmail } from './sendMail';
-import prisma from '@packages/libs/prisma';
+import prisma from '../../../../packages/libs/prisma';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -132,7 +132,7 @@ export const handleForgotPassword = async (
     await checkOtpRestrictions(email, next);
     await trackOtpRequests(email, next);
 
-    await sendOtp(email, user.name, 'forgot-password-user-mail');
+    await sendOtp(user.name, email, 'forgot-password-user-mail');
 
     res.status(200).json({
       message: 'OTP sent to email, Please verify your account',

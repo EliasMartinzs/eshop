@@ -1,4 +1,8 @@
+import bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
+import { ValidationError } from '../../../../packages/error-handler';
+import prisma from '../../../../packages/libs/prisma';
 import {
   checkOtpRestrictions,
   handleForgotPassword,
@@ -8,10 +12,6 @@ import {
   verifyForgotPasswordOtp,
   verifyOtp,
 } from '../utils/auth.helper';
-import prisma from '../../../../packages/libs/prisma';
-import { ValidationError } from '../../../../packages/error-handler';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import { setCookie } from '../utils/cookies/setCookie';
 
 // register a new user
@@ -137,6 +137,68 @@ export const loginUser = async (
     });
   } catch (error) {
     return next(error);
+  }
+};
+
+// refresh token user
+export const refreshToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const refreshToken = req.cookies.refresh_cookies;
+
+    if (!refreshToken) {
+      throw new ValidationError('Unauthorizend! No refesh token.');
+    }
+
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET as string
+    ) as { id: string; role: string };
+
+    if (!decoded || !decoded.id || decoded.role) {
+      return new JsonWebTokenError('Forbidden! Invalid refresh token.');
+    }
+
+    // let account;
+    // if (decoded.role === 'user')
+    const user = await prisma.users.findUnique({ where: { id: decoded.id } });
+
+    if (!user) {
+      return new Error('Foridden! User/Seller not found');
+    }
+
+    const newAcessToken = jwt.sign(
+      {
+        id: decoded.id,
+        role: decoded.role,
+      },
+      process.env.ACCESS_TOKEN_SECRET as string,
+      {
+        expiresIn: '15m',
+      }
+    );
+
+    setCookie(res, 'access_token', newAcessToken);
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+// get logged in user
+export const getUser = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const user = req.user;
+
+    res.status(201).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    next(error);
   }
 };
 
