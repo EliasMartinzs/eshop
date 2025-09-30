@@ -80,3 +80,30 @@ And join the Nx community:
 - [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
 - [Our Youtube channel](https://www.youtube.com/@nxdevtools)
 - [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+
+
+## Env Back
+# Banco de Dados MongoDB
+DATABASE_URL="mongodb+srv://username:password@ecommerce.jcq0lrg.mongodb.net/development"
+
+# Configurações Redis
+REDIS_DATABASE_URL="rediss://default:password@dashing-stag-9982.upstash.io:6379"
+REDIS_HOST="https://dashing-stag-9982.upstash.io"
+REDIS_PORT="6379"
+REDIS_PASSWORD="sua_senha_redis_aqui"
+
+# Configurações SMTP (Email)
+SMTP_USER="seu_email@gmail.com"
+SMTP_PASS="sua_senha_de_app_aqui"
+SMTP_PORT="465"
+SMTP_SERVICE="gmail"
+SMTP_HOST="smtp.gmail.com"
+
+# Segredos JWT
+ACCESS_TOKEN_JWT_SECRET="seu_segredo_jwt_access_token_aqui"
+REFRESH_TOKEN_JWT_SECRET="seu_segredo_jwt_refresh_token_aqui"
+
+## Env Front
+NEXT_PUBLIC_SERVER_URI="http://localhost:8080"
+
+
