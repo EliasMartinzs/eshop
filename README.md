@@ -83,23 +83,16 @@ And join the Nx community:
 
 
 ## Env Back
-# Banco de Dados MongoDB
 DATABASE_URL="mongodb+srv://username:password@ecommerce.jcq0lrg.mongodb.net/development"
-
-# Configurações Redis
 REDIS_DATABASE_URL="rediss://default:password@dashing-stag-9982.upstash.io:6379"
 REDIS_HOST="https://dashing-stag-9982.upstash.io"
 REDIS_PORT="6379"
 REDIS_PASSWORD="sua_senha_redis_aqui"
-
-# Configurações SMTP (Email)
 SMTP_USER="seu_email@gmail.com"
 SMTP_PASS="sua_senha_de_app_aqui"
 SMTP_PORT="465"
 SMTP_SERVICE="gmail"
 SMTP_HOST="smtp.gmail.com"
-
-# Segredos JWT
 ACCESS_TOKEN_JWT_SECRET="seu_segredo_jwt_access_token_aqui"
 REFRESH_TOKEN_JWT_SECRET="seu_segredo_jwt_refresh_token_aqui"
 
